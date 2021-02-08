@@ -8,6 +8,8 @@ from nltk.corpus import words
 
 word_list = words.words()
 # print(word_list)
+
+
 def encrypt(message, key):
     """[that takes in a plain text phrase and a numeric shift]
     Args:
@@ -46,41 +48,26 @@ def decrypt(message, key):
     decrypted_text = encrypt(message, -key)
     return decrypted_text
 
-def crack(test, key_temp):
+def crack(message):
     """[decode the cipher so that an encrypted message can be transformed into its original state WITHOUT access to the key.]
 
     Args:
         message ([str]): [cipher that needs decoding]
     """
-    # # get first encrypted word in message
-    # for word in range(len(test)):
-    #     # key_temp = 
-        
-    #     word = decrypt(test, key_temp)
-    #     print(word)
-    #     for word in word_list:
-    #         if word is not :
-    #         # return word
-    #             print(word)
-    #         elif word is not word_list:
-    #             key_temp2 = key_temp + 1
-    #             return key_temp2
-    # print(key_temp)
-        
-    # start at key 1, check against word list
-    # if not in list, increment key +1
-    # if in list, return Key #
-    # use Key number in decrypt()
-    # return solution
+    cipher = []
+    cipher_string = ''
+    for i in range(26):
+        message_data = decrypt(message, i)
+        word_split = message_data.split()
+        cipher.append(word_split)
 
-message = 'It was the best of times, it was the worst of times.'
-# Why are there extra letters when I just run it as key 26?
-print(f'{message}')
-# print(f'{key}')
-key = 1
-key_temp = 1
-test = encrypt(message, key)
-answer = crack(test, key_temp)
-print(f'Ceasar Cypher: {encrypt(message, key_temp)}')
-# print(f'Ceasar Cypher Decryption: {decrypt(test, key)}')
-print(f'Unknown Cipher solution: Key is: {key_temp} and the message is: {answer}')
+    for j in range(len(cipher)):
+        current = cipher[j]
+        for a in current:
+            if a in word_list:
+                cipher_string += a
+
+    print(cipher_string)
+
+
+# if __name__ == "__main__":
