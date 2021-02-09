@@ -1,6 +1,7 @@
 # text = input("Please enter your text to encrypt")
 # key = input("Please enter your key: ")
 import nltk
+import re
 
 nltk.download('words', quiet=True)
 
@@ -54,20 +55,30 @@ def crack(message):
     Args:
         message ([str]): [cipher that needs decoding]
     """
-    cipher = []
-    cipher_string = ''
-    for i in range(26):
-        message_data = decrypt(message, i)
-        word_split = message_data.split()
-        cipher.append(word_split)
+    if not message:
+        return None
 
-    for j in range(len(cipher)):
-        current = cipher[j]
-        for a in current:
-            if a in word_list:
-                cipher_string += a
+    max_pct = 80
+    cipher_string = ""
 
-    print(cipher_string)
+    for i in range(1, 27):
+        decryted = decrypt(message, i)
+        words = decryted.split()
+        word_count = 0
+
+        for word in words:
+            cleaned = re.sub(r"[^a-zA-Z]+", "", word).lower()
+            if cleaned in word_list:
+                word_count += 1
+
+        percent_found = int(word_count / len(words) * 100)
+
+        if percent_found > max_pct:
+            max_pct = percent_found
+            cipher_string = decryted
+
+    return cipher_string
 
 
-# if __name__ == "__main__":
+if __name__ == "__main__":
+    pass
